@@ -1,0 +1,368 @@
+.container {
+  width: 100vw;
+  min-height: 100vh;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: background-color 0.5s ease;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #d4a373;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.step {
+  font-size: 1.5rem;
+  color: #666;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.peperoContainer {
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+  border: 2px solid #d4a373;
+  border-radius: 1rem;
+  position: relative;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.peperoStick {
+  width: 1.5rem;
+  height: 35rem;
+  background-color: #d4a373;
+  border-radius: 1rem 1rem 0 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.peperoBase {
+  width: 100%;
+  height: 80%;
+  position: relative;
+  border-radius: 1rem 1rem 0 0;
+  mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+}
+
+.peperoTopping {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+}
+
+.peperoForm {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.optionsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.option {
+  padding: 1rem 2rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  min-width: 120px;
+  text-align: center;
+}
+
+.option:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.chocolate {
+  background-color: #8b4513;
+  color: white;
+}
+
+.strawberry {
+  background-color: #ffa3d1;
+  color: white;
+}
+
+.vanilla {
+  background-color: #f3e5ab;
+  color: black;
+}
+
+.white {
+  background-color: #f5f5dc;
+  color: black;
+}
+
+.melon {
+  background-color: #98fb98;
+  color: black;
+}
+.nameInputContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 300px;
+}
+
+.nameInput {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 2px solid #d4a373;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.nameInput:focus {
+  border-color: #b08b5e;
+  box-shadow: 0 0 0 2px rgba(212, 163, 115, 0.2);
+}
+
+.completeButton {
+  width: 100%;
+  padding: 0.8rem;
+  background: #d4a373;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.completeButton:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.completeButton:not(:disabled):hover {
+  background: #b08b5e;
+  transform: translateY(-2px);
+}
+
+.completionStep {
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.completionHeader {
+  margin-bottom: 2rem;
+}
+
+.completionStepTitle {
+  font-size: 2rem;
+  color: #d4a373;
+  margin-bottom: 0.5rem;
+}
+
+.completionDescription {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.peperoDetails {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.detailItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.detailLabel {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.detailValue {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #d4a373;
+}
+
+.completionActions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.shareButton,
+.newButton {
+  padding: 0.8rem 2rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 120px;
+}
+
+.shareButton {
+  background: #d4a373;
+  color: white;
+}
+
+.newButton {
+  background: white;
+  color: #d4a373;
+  border: 2px solid #d4a373;
+}
+
+.shareButton:hover,
+.newButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.completionOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: overlayFadeIn 0.3s ease-out;
+  z-index: 1000;
+}
+
+.completionContent {
+  background: white;
+  padding: 3rem;
+  border-radius: 1.5rem;
+  text-align: center;
+  max-width: 90%;
+  width: 500px;
+  animation: contentSlideUp 0.4s ease-out;
+}
+
+.completionTitle {
+  font-size: 1.5rem;
+  color: #d4a373;
+  margin-bottom: 1rem;
+}
+
+.completionText {
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+.closeButton {
+  padding: 0.8rem 2rem;
+  background: #d4a373;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.closeButton:hover {
+  background: #b08b5e;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes contentSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .peperoContainer {
+    padding: 1rem;
+  }
+
+  .peperoStick {
+    height: 25rem;
+  }
+
+  .option {
+    min-width: 100px;
+    padding: 0.8rem 1.5rem;
+  }
+
+  .peperoDetails {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .completionActions {
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+    margin: 2rem auto 0;
+  }
+
+  .shareButton,
+  .newButton {
+    width: 100%;
+  }
+}
