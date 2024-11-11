@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import styles from "@/styles/page.module.css";
 
@@ -52,7 +52,7 @@ const INITIAL_STATE: PeperoData = {
   name: "",
 };
 
-export default function PeperoMaker() {
+function PeperoMakerContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -191,6 +191,20 @@ export default function PeperoMaker() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function PeperoMaker() {
+  return (
+    <Suspense
+      fallback={
+        <div className={styles.container}>
+          <h1 className={styles.title}>빼빼로메이커</h1>
+          <p>Loading...</p>
+        </div>
+      }>
+      <PeperoMakerContent />
+    </Suspense>
   );
 }
 
