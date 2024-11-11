@@ -56,34 +56,46 @@ export default function PeperoMaker() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const [peperoState, setPeperoState] = useState<PeperoData>(INITIAL_STATE);
+  const [peperoState, setPeperoState] = useState<PeperoData>(() => {
+    const peperoParam = searchParams.get("pepero");
+    if (!peperoParam) return INITIAL_STATE;
+
+    try {
+      const decodedPepero = JSON.parse(
+        decodeURIComponent(atob(peperoParam))
+      ) as PeperoData;
+      return {
+        ...decodedPepero,
+        step: determineStep(decodedPepero),
+      };
+    } catch {
+      return INITIAL_STATE;
+    }
+  });
+
   const [showCompletion, setShowCompletion] = useState(false);
 
   useEffect(() => {
-    const loadPeperoState = () => {
-      const peperoParam = searchParams.get("pepero");
-      if (!peperoParam) {
-        setPeperoState(INITIAL_STATE);
-        setShowCompletion(false);
-        return;
-      }
+    const peperoParam = searchParams.get("pepero");
+    if (!peperoParam) {
+      setPeperoState(INITIAL_STATE);
+      setShowCompletion(false);
+      return;
+    }
 
-      try {
-        const decodedPepero = JSON.parse(
-          decodeURIComponent(atob(peperoParam))
-        ) as PeperoData;
-
-        const validatedStep = determineStep(decodedPepero);
-        setPeperoState({ ...decodedPepero, step: validatedStep });
-        setShowCompletion(false);
-      } catch (error) {
-        console.error("Failed to load pepero data:", error);
-        setPeperoState(INITIAL_STATE);
-        setShowCompletion(false);
-      }
-    };
-
-    loadPeperoState();
+    try {
+      const decodedPepero = JSON.parse(
+        decodeURIComponent(atob(peperoParam))
+      ) as PeperoData;
+      setPeperoState({
+        ...decodedPepero,
+        step: determineStep(decodedPepero),
+      });
+      setShowCompletion(false);
+    } catch {
+      setPeperoState(INITIAL_STATE);
+      setShowCompletion(false);
+    }
   }, [searchParams]);
 
   const determineStep = (state: Partial<PeperoData>): Step => {
