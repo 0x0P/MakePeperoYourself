@@ -29,12 +29,14 @@ const BASE_OPTIONS: StepOption[] = [
   { id: "vanilla", label: "바닐라", style: styles.vanilla },
   { id: "white", label: "화이트초콜릿", style: styles.white },
   { id: "melon", label: "메론", style: styles.melon },
+  { id: "red", label: "빨간맛", style: styles.red },
 ] as const;
 
 const TOPPING_OPTIONS: StepOption[] = [
   { id: "almond", label: "아몬드", style: "" },
   { id: "sprinkles", label: "스프링클", style: "" },
   { id: "cookie", label: "쿠키 크럼블", style: "" },
+  { id: "choco", label: "초콜릿", style: "" },
 ] as const;
 
 const BASE_COLORS = {
@@ -43,6 +45,7 @@ const BASE_COLORS = {
   vanilla: "#FFFBF0",
   white: "#FAFAFA",
   melon: "#F0FAF4",
+  red: "#FF0000",
 } as const;
 
 const INITIAL_STATE: PeperoData = {
@@ -216,7 +219,7 @@ function PeperoDisplay({ base, topping }: { base: string; topping: string }) {
         <div className={`${styles.peperoBase} ${base ? styles[base] : ""}`}>
           {topping && (
             <div
-              className={`${styles.peperoTopping} ${styles[topping]}`}
+              className={styles.peperoTopping}
               style={{
                 backgroundImage: `url(/toppings/${topping}.png)`,
               }}
