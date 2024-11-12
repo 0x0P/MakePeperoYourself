@@ -62,11 +62,23 @@
   top: 0;
   left: 0;
   background-size: 100% 100%;
+  background-position: center;
   background-repeat: no-repeat;
   mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
   -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+  animation: toppingAnimation 0.5s ease;
 }
 
+@keyframes toppingAnimation {
+  0% {
+    opacity: 0;
+    background-size: 200% 200%;
+  }
+  100% {
+    opacity: 1;
+    background-size: 100% 100%;
+  }
+}
 .peperoForm {
   width: 100%;
   max-width: 600px;
@@ -92,6 +104,7 @@
   font-size: 1rem;
   min-width: 120px;
   text-align: center;
+  background-color: white;
 }
 
 .option:hover {
@@ -123,6 +136,12 @@
   background-color: #98fb98;
   color: black;
 }
+
+.red {
+  background-color: #ff1919;
+  color: white;
+}
+
 .nameInputContainer {
   display: flex;
   flex-direction: column;
