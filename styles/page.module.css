@@ -55,6 +55,15 @@
   -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
 }
 
+@keyframes base {
+  0% {
+    height: 0%;
+  }
+  100% {
+    height: 80%;
+  }
+}
+
 .peperoTopping {
   width: 100%;
   height: 100%;
@@ -113,31 +122,37 @@
 }
 
 .chocolate {
+  animation: base 0.5s ease;
   background-color: #8b4513;
   color: white;
 }
 
 .strawberry {
+  animation: base 0.5s ease;
   background-color: #ffa3d1;
   color: white;
 }
 
 .vanilla {
+  animation: base 0.5s ease;
   background-color: #f3e5ab;
   color: black;
 }
 
 .white {
+  animation: base 0.5s ease;
   background-color: #f5f5dc;
   color: black;
 }
 
 .melon {
+  animation: base 0.5s ease;
   background-color: #98fb98;
   color: black;
 }
 
 .red {
+  animation: base 0.5s ease;
   background-color: #ff1919;
   color: white;
 }
