@@ -216,7 +216,7 @@ function PeperoDisplay({ base, topping }: { base: string; topping: string }) {
   return (
     <div className={styles.peperoContainer}>
       <div className={styles.peperoStick}>
-        <div className={`${styles.peperoBase} ${base ? styles[base] : ""}`}>
+        <div className={`${styles.peperoBase} ${base ? styles[base] : ""} `}>
           {topping && (
             <div
               className={styles.peperoTopping}
@@ -251,7 +251,7 @@ function StepOptions({
           {BASE_OPTIONS.map((option) => (
             <div
               key={option.id}
-              className={`${styles.option} ${option.style}`}
+              className={`${styles.option} ${option.style} `}
               onClick={() => onStepChange({ base: option.id })}>
               {option.label}
             </div>
