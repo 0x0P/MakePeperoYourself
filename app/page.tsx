@@ -4,12 +4,14 @@ import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import styles from "@/styles/page.module.css";
 
-// Types
 interface PeperoData {
   step: Step;
   base: string;
   topping: string;
   name: string;
+  recipient: string;
+  sender: string;
+  letter: string;
 }
 
 interface StepOption {
@@ -18,9 +20,8 @@ interface StepOption {
   style: string;
 }
 
-type Step = "맛" | "토핑" | "이름" | "완성";
+type Step = "맛" | "토핑" | "이름" | "편지" | "완성";
 
-// Constants
 const INITIAL_STEP = "맛" as const;
 
 const BASE_OPTIONS: StepOption[] = [
@@ -30,12 +31,34 @@ const BASE_OPTIONS: StepOption[] = [
   { id: "white", label: "화이트초콜릿", style: styles.white },
   { id: "melon", label: "메론", style: styles.melon },
   { id: "red", label: "빨간맛", style: styles.red },
+  { id: "matcha", label: "말차", style: styles.matcha },
+  { id: "mintchoco", label: "민트초코", style: styles.mintchoco },
+  { id: "caramel", label: "카라멜", style: styles.caramel },
+  { id: "peanutbutter", label: "피넛버터", style: styles.peanutbutter },
+  { id: "tiramisu", label: "티라미수", style: styles.tiramisu },
+  { id: "cookiescream", label: "쿠키앤크림", style: styles.cookiescream },
+  { id: "milk", label: "우유", style: styles.milk },
+  { id: "blueberry", label: "블루베리", style: styles.blueberry },
+  { id: "mango", label: "망고", style: styles.mango },
+  { id: "orange", label: "오렌지", style: styles.orange },
+  { id: "lemon", label: "레몬", style: styles.lemon },
+  { id: "coconut", label: "코코넛", style: styles.coconut },
+  { id: "coffee", label: "커피", style: styles.coffee },
+  { id: "yogurt", label: "요거트", style: styles.yogurt },
+  { id: "cheesecake", label: "치즈케이크", style: styles.cheesecake },
 ] as const;
 
 const TOPPING_OPTIONS: StepOption[] = [
   { id: "almond", label: "아몬드", style: "" },
   { id: "sprinkles", label: "스프링클", style: "" },
   { id: "cookie", label: "쿠키 크럼블", style: "" },
+  { id: "chocochip", label: "초콜릿 칩", style: "" },
+  { id: "pistachio", label: "피스타치오", style: "" },
+  { id: "hazelnut", label: "헤이즐넛", style: "" },
+  { id: "peanut", label: "땅콩", style: "" },
+  { id: "crunch", label: "크런치", style: "" },
+  { id: "strawberryPowder", label: "딸기 파우더", style: "" },
+  { id: "cinnamonSugar", label: "시나몬 슈가", style: "" },
   { id: "choco", label: "초콜릿", style: "" },
 ] as const;
 
@@ -45,7 +68,22 @@ const BASE_COLORS = {
   vanilla: "#FFFBF0",
   white: "#FAFAFA",
   melon: "#F0FAF4",
-  red: "#FF0000",
+  red: "#FFE5E5",
+  matcha: "#F0FAF0",
+  mintchoco: "#E8F8F5",
+  caramel: "#FFF5E6",
+  peanutbutter: "#FFF8E7",
+  tiramisu: "#F9F5F0",
+  cookiescream: "#FAFAF8",
+  milk: "#FFFEF9",
+  blueberry: "#F0F4FF",
+  mango: "#FFF9E6",
+  orange: "#FFF5E6",
+  lemon: "#FFFEF0",
+  coconut: "#FFFFF9",
+  coffee: "#F5F0EB",
+  yogurt: "#FFFEF5",
+  cheesecake: "#FFFEF0",
 } as const;
 
 const INITIAL_STATE: PeperoData = {
@@ -53,6 +91,9 @@ const INITIAL_STATE: PeperoData = {
   base: "",
   topping: "",
   name: "",
+  recipient: "",
+  sender: "",
+  letter: "",
 };
 
 function PeperoMakerContent() {
@@ -105,6 +146,7 @@ function PeperoMakerContent() {
     if (!state.base) return "맛";
     if (!state.topping) return "토핑";
     if (!state.name) return "이름";
+    if (!state.recipient || !state.sender || !state.letter) return "편지";
     return "완성";
   };
 
@@ -124,12 +166,33 @@ function PeperoMakerContent() {
     updateURL(newState);
   };
 
+  const handleLetterChange = (letter: string) => {
+    setPeperoState((prev) => ({ ...prev, letter }));
+  };
+
+  const handleRecipientChange = (recipient: string) => {
+    setPeperoState((prev) => ({ ...prev, recipient }));
+  };
+
+  const handleSenderChange = (sender: string) => {
+    setPeperoState((prev) => ({ ...prev, sender }));
+  };
+
   const handleNameChange = (name: string) => {
     setPeperoState((prev) => ({ ...prev, name }));
   };
 
-  const handleCompletion = () => {
+  const handleNameCompletion = () => {
     if (!peperoState.name) return;
+
+    const newState = { ...peperoState, step: "편지" as const };
+    setPeperoState(newState);
+    updateURL(newState);
+  };
+
+  const handleCompletion = () => {
+    if (!peperoState.recipient || !peperoState.sender || !peperoState.letter)
+      return;
 
     const newState = { ...peperoState, step: "완성" as const };
     setPeperoState(newState);
@@ -165,11 +228,16 @@ function PeperoMakerContent() {
         backgroundColor: peperoState.base
           ? BASE_COLORS[peperoState.base as keyof typeof BASE_COLORS]
           : "#fff",
-      }}>
+      }}
+    >
       <h1 className={styles.title}>빼빼로메이커</h1>
 
       {peperoState.step !== "완성" && (
-        <h2 className={styles.step}>{peperoState.step}을 선택해주세요</h2>
+        <h2 className={styles.step}>
+          {peperoState.step === "편지"
+            ? "편지를 작성해주세요"
+            : `${peperoState.step}을 선택해주세요`}
+        </h2>
       )}
 
       <PeperoDisplay base={peperoState.base} topping={peperoState.topping} />
@@ -189,6 +257,10 @@ function PeperoMakerContent() {
             peperoState={peperoState}
             onStepChange={handleStepChange}
             onNameChange={handleNameChange}
+            onLetterChange={handleLetterChange}
+            onRecipientChange={handleRecipientChange}
+            onSenderChange={handleSenderChange}
+            onNameComplete={handleNameCompletion}
             onComplete={handleCompletion}
           />
         )}
@@ -205,13 +277,13 @@ export default function PeperoMaker() {
           <h1 className={styles.title}>빼빼로메이커</h1>
           <p>Loading...</p>
         </div>
-      }>
+      }
+    >
       <PeperoMakerContent />
     </Suspense>
   );
 }
 
-// Subcomponents
 function PeperoDisplay({ base, topping }: { base: string; topping: string }) {
   return (
     <div className={styles.peperoContainer}>
@@ -236,12 +308,20 @@ function StepOptions({
   peperoState,
   onStepChange,
   onNameChange,
+  onLetterChange,
+  onRecipientChange,
+  onSenderChange,
+  onNameComplete,
   onComplete,
 }: {
   currentStep: Step;
   peperoState: PeperoData;
   onStepChange: (updates: Partial<PeperoData>) => void;
   onNameChange: (name: string) => void;
+  onLetterChange: (letter: string) => void;
+  onRecipientChange: (recipient: string) => void;
+  onSenderChange: (sender: string) => void;
+  onNameComplete: () => void;
   onComplete: () => void;
 }) {
   switch (currentStep) {
@@ -252,7 +332,8 @@ function StepOptions({
             <div
               key={option.id}
               className={`${styles.option} ${option.style} `}
-              onClick={() => onStepChange({ base: option.id })}>
+              onClick={() => onStepChange({ base: option.id })}
+            >
               {option.label}
             </div>
           ))}
@@ -266,7 +347,8 @@ function StepOptions({
             <div
               key={option.id}
               className={`${styles.option} ${option.style}`}
-              onClick={() => onStepChange({ topping: option.id })}>
+              onClick={() => onStepChange({ topping: option.id })}
+            >
               {option.label}
             </div>
           ))}
@@ -280,13 +362,57 @@ function StepOptions({
             type="text"
             value={peperoState.name}
             onChange={(e) => onNameChange(e.target.value)}
-            placeholder="이름을 입력해주세요"
+            placeholder="빼빼로의 이름을 입력해주세요"
             className={styles.nameInput}
           />
           <button
+            onClick={onNameComplete}
+            className={styles.completeButton}
+            disabled={!peperoState.name}
+          >
+            다음
+          </button>
+        </div>
+      );
+
+    case "편지":
+      return (
+        <div className={styles.letterInputContainer}>
+          <div className={styles.letterNamesContainer}>
+            <input
+              type="text"
+              value={peperoState.recipient}
+              onChange={(e) => onRecipientChange(e.target.value)}
+              placeholder="받는 사람"
+              className={styles.recipientInput}
+            />
+            <input
+              type="text"
+              value={peperoState.sender}
+              onChange={(e) => onSenderChange(e.target.value)}
+              placeholder="보낸 사람"
+              className={styles.senderInput}
+            />
+          </div>
+          <textarea
+            value={peperoState.letter}
+            onChange={(e) => onLetterChange(e.target.value)}
+            placeholder="받는 사람에게 전할 메시지를 작성해주세요"
+            className={styles.letterInput}
+            maxLength={500}
+          />
+          <div className={styles.letterInfo}>
+            {peperoState.letter.length} / 500자
+          </div>
+          <button
             onClick={onComplete}
             className={styles.completeButton}
-            disabled={!peperoState.name}>
+            disabled={
+              !peperoState.recipient ||
+              !peperoState.sender ||
+              !peperoState.letter
+            }
+          >
             완료
           </button>
         </div>
@@ -314,7 +440,7 @@ function CompletionStep({
     <div className={styles.completionStep}>
       <div className={styles.completionHeader}>
         <h2 className={styles.completionStepTitle}>
-          {peperoState.name}맛 빼빼로 완성!
+          {peperoState.name} 빼빼로 완성!
         </h2>
         <p className={styles.completionDescription}>
           나만의 특별한 빼빼로가 완성되었어요!
@@ -337,7 +463,21 @@ function CompletionStep({
             }
           </span>
         </div>
+        {peperoState.recipient && (
+          <div className={styles.detailItem}>
+            <span className={styles.detailLabel}>받는 사람</span>
+            <span className={styles.detailValue}>{peperoState.recipient}</span>
+          </div>
+        )}
       </div>
+
+      {peperoState.letter && (
+        <LetterEnvelope
+          letter={peperoState.letter}
+          recipient={peperoState.recipient}
+          sender={peperoState.sender}
+        />
+      )}
 
       <div className={styles.completionActions}>
         <button onClick={onReset} className={styles.newButton}>
@@ -360,6 +500,55 @@ function CompletionOverlay({ onClose }: { onClose: () => void }) {
         <button onClick={onClose} className={styles.closeButton}>
           닫기
         </button>
+      </div>
+    </div>
+  );
+}
+
+function LetterEnvelope({
+  letter,
+  recipient,
+  sender,
+}: {
+  letter: string;
+  recipient: string;
+  sender: string;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className={styles.letterSection}>
+      <h3 className={styles.letterTitle}>
+        {isOpen ? "편지 내용" : "편지를 클릭해서 열어보세요"}
+      </h3>
+      <div
+        className={`${styles.envelope} ${isOpen ? styles.envelopeOpen : ""}`}
+        onClick={() => !isOpen && setIsOpen(true)}
+      >
+        {!isOpen ? (
+          <div className={styles.envelopeFront}>
+            <div className={styles.envelopeFlap}></div>
+            <div className={styles.envelopeBody}>
+              <div className={styles.envelopeTo}>To. {recipient}</div>
+            </div>
+          </div>
+        ) : (
+          <div className={styles.letterContent}>
+            <div className={styles.letterPaper}>
+              <p className={styles.letterText}>{letter}</p>
+              <div className={styles.letterFrom}>From. {sender}</div>
+            </div>
+            <button
+              className={styles.closeLetterButton}
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsOpen(false);
+              }}
+            >
+              편지 닫기
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
